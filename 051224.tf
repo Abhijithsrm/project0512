@@ -47,7 +47,7 @@ resource "aws_security_group" "nvsec" {
 }
 
 resource "aws_instance" "ubuntu_instance" {
-  ami           = "ami-0dee22c13ea7a9a67"  # Replace with the latest Ubuntu AMI ID
+  ami           = "ami-053b12d3152c0cc71"  # Replace with the latest Ubuntu AMI ID
   instance_type = "t2.micro"
   key_name      = "ukeym"  # Replace with your key pair name
 
