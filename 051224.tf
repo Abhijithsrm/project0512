@@ -7,7 +7,7 @@ resource "aws_vpc" "my_vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = "VPC011124"
+    Name = "VPC051224"
   }
 }
 
@@ -42,7 +42,7 @@ resource "aws_security_group" "nvsec" {
   }
 
   tags = {
-    Name = "ultssec"
+    Name = "sec12"
   }
 }
 
@@ -58,3 +58,4 @@ resource "aws_instance" "ubuntu_instance" {
     Name = "UIN051224"
   }
 }
+
