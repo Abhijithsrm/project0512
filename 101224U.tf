@@ -3,21 +3,21 @@ provider "aws" {
 }
 
 resource "aws_vpc" "my_vpc" {
-  cidr_block           = "20.0.0.0/24"
+  cidr_block           = "10.0.0.0/24"
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = "VPC051224"
+    Name = "VPC101224"
   }
 }
 
 resource "aws_subnet" "my_subnet" {
   vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = "20.0.0.0/25"
+  cidr_block        = "10.0.0.0/25"
   availability_zone = "ap-south-1a"  # Availability zone in the correct region
 }
 
-resource "aws_security_group" "nvsec" {
+resource "aws_security_group" "secgp" {
   vpc_id = aws_vpc.my_vpc.id
 
   ingress {
@@ -55,7 +55,7 @@ resource "aws_instance" "ubuntu_instance" {
   subnet_id              = aws_subnet.my_subnet.id  # Correctly reference the subnet
    associate_public_ip_address = true  # Enable auto-assigned public IP
   tags = {
-    Name = "UIN051224"
+    Name = "U101224"
   }
 }
 
