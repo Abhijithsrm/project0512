@@ -2,19 +2,22 @@ provider "aws" {
   region = "ap-south-1"  # Corrected to the region
 }
 
-resource "aws_vpc" "my_vpc" {
-  cidr_block           = "10.0.0.0/24"
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-  tags = {
-    Name = "VPC101224"
+# Data source to reference the existing VPC by name (dc1024)
+data "aws_vpc" "dc1024" {
+  filter {
+    name   = "tag:Name"
+    values = ["dc1024"]
   }
 }
 
-resource "aws_subnet" "my_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = "10.0.0.0/25"
-  availability_zone = "ap-south-1a"  # Availability zone in the correct region
+# Subnet within the existing VPC
+resource "aws_subnet" "svpcdec10" {
+  vpc_id     = data.aws_vpc.dc1024.id
+  cidr_block = "10.0.0.0/25"  # Subnet within the VPC
+  availability_zone = "ap-south-1"  # Replace with your preferred AZ
+  tags = {
+    Name = "svpcdec10"
+  }
 }
 
 resource "aws_security_group" "secgp" {
@@ -51,11 +54,11 @@ resource "aws_instance" "ubuntu_instance" {
   instance_type = "t2.micro"
   key_name      = "ukeym"  # Replace with your key pair name
 
-  vpc_security_group_ids = [aws_security_group.nvsec.id]
+  vpc_security_group_ids = [aws_security_group.secgp.id]
   subnet_id              = aws_subnet.my_subnet.id  # Correctly reference the subnet
    associate_public_ip_address = true  # Enable auto-assigned public IP
   tags = {
-    Name = "U101224"
+    Name = "UDEC18"
   }
 }
 
